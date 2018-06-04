@@ -48,10 +48,10 @@ def pfilter(string):
                 "\u2015","\u2016","\u2017","\u2018","\u2019",]
     stopwords = pStopwords()
     filters = re.compile("[^A-Za-z0-9 ]+")
-    string = re.sub(filters, "", string.lower())
     filtered_sentence = []
     for entry in unicodes:
         string = string.replace(entry, " ")
+    string = re.sub(filters, "", string.lower())
     tokens = string.split(' ')
     for word in tokens:
         if word not in stopwords and word != "":
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     oCategories = 'categories'
     oComments = 'comments'
     sArticles = 'Articles'
-    months = ['Jan', 'Feb','March', 'April', 'May'  ]
+    months = ['Jan', 'Feb','March', 'April']
     years = ['2017', '2018']
     fileEnding = '.csv'
     jason = '.json'
@@ -84,7 +84,17 @@ if __name__ == '__main__':
                 fp.write(json.dumps(cats, indent = 4))
 
             print('Finished writing to json for ', month, ' ', year)
+    cLocation = folder + sComments + 'May' + '2017' + fileEnding
+    aLocation = folder + sArticles + 'May' + '2017' + fileEnding
+    writeCmt = oComments + 'May' + '2017' + jason
+    writeCat = oCategories + 'May' + '2017' + jason
+    cmts, cats = pDict(cLocation, aLocation)
+    with open(writeCmt, 'w') as fp:
+        fp.write(json.dumps(cmts, indent=4))
+    with open(writeCat, 'w') as fp:
+        fp.write(json.dumps(cats, indent=4))
 
+    print('Finished writing to json for ', month, ' ', year)
             # Testing automating file names
             # print(sComments + month + year + fileEnding)
             # print(sArticles + month + year + fileEnding)
